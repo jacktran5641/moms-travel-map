@@ -1,6 +1,7 @@
 {
-  "usa/san-jose": [
-    "IMG_4639.jpeg"
+  "usa/big-sur": [
+    "IMG_5219.jpeg",
+    "IMG_5227.jpeg"
   ],
   "usa/malibu": [
     "B4443B76-3F08-4E01-8511-DA3455E527AD.JPEG",
@@ -10,12 +11,8 @@
     "IMG_6269.jpeg",
     "IMG_6275.jpeg"
   ],
-  "usa/big-sur": [
-    "IMG_5219.jpeg",
-    "IMG_5227.jpeg"
-  ],
-  "bahamas": [
-    "IMG_4164.JPG"
+  "usa/san-jose": [
+    "IMG_4639.jpeg"
   ],
   "vietnam/phu-quoc": [
     "IMG_8041.jpeg",
@@ -24,5 +21,8 @@
     "IMG_8093.jpeg",
     "IMG_8116.jpeg",
     "IMG_8304.JPG"
+  ],
+  "bahamas": [
+    "IMG_4164.JPG"
   ]
 }
