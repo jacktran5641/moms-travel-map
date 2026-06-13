@@ -40,5 +40,69 @@ const TRAVEL_DATA = {
     locations: {
       "bahamas": { name: "Bahamas", folder: "bahamas", music: "bahamas.mp3", date: "Tháng 7, 2023" }
     }
+  },
+
+  france: {
+    name: "France",
+    countryCode: 250,
+    locations: {
+      "paris": { name: "Paris", folder: "france/paris", music: "", date: "" }
+    }
+  },
+
+  uk: {
+    name: "United Kingdom",
+    countryCode: 826,
+    locations: {
+      "london": { name: "London", folder: "uk/london", music: "", date: "" }
+    }
+  },
+
+  southafrica: {
+    name: "South Africa",
+    countryCode: 710,
+    locations: {
+      "south-africa": { name: "South Africa", folder: "southafrica", music: "", date: "" }
+    }
+  },
+
+  peru: {
+    name: "Peru",
+    countryCode: 604,
+    locations: {
+      "peru": { name: "Peru", folder: "peru", music: "", date: "" }
+    }
+  },
+
+  argentina: {
+    name: "Argentina",
+    countryCode: 32,
+    locations: {
+      "argentina": { name: "Argentina", folder: "argentina", music: "", date: "" }
+    }
+  },
+
+  brazil: {
+    name: "Brazil",
+    countryCode: 76,
+    locations: {
+      "brazil": { name: "Brazil", folder: "brazil", music: "", date: "" }
+    }
+  },
+
+  uae: {
+    name: "UAE",
+    countryCode: 784,
+    locations: {
+      "dubai": { name: "Dubai", folder: "uae/dubai", music: "", date: "" }
+    }
+  },
+
+  singapore: {
+    name: "Singapore",
+    countryCode: 702,
+    locations: {
+      "singapore": { name: "Singapore", folder: "singapore", music: "", date: "" }
+    }
   }
 };
