@@ -1,28 +1,75 @@
 {
-  "usa/big-sur": [
-    "IMG_5219.jpeg",
-    "IMG_5227.jpeg"
+  "usa/san-jose": [
+    "IMG_4639.jpeg",
+    "IMG_5882.jpeg",
+    "IMG_5890.jpeg",
+    "IMG_8507.jpeg",
+    "att.1zTs_cVQqazjhVEQzkKfj3pJgFckDGn-59kF8HdWsSY.mp4"
   ],
   "usa/malibu": [
     "B4443B76-3F08-4E01-8511-DA3455E527AD.JPEG",
     "IMG_5649.jpeg",
     "IMG_5733.jpeg",
-    "IMG_5986.jpeg",
     "IMG_6269.jpeg",
     "IMG_6275.jpeg"
   ],
-  "usa/san-jose": [
-    "IMG_4639.jpeg"
+  "usa/big-sur": [
+    "IMG_4052.MOV",
+    "IMG_5215.jpeg",
+    "IMG_5220.jpeg",
+    "IMG_5228.jpeg",
+    "IMG_5230.jpeg",
+    "IMG_5233.jpeg",
+    "IMG_5235.jpeg",
+    "IMG_5240.jpeg",
+    "IMG_5252 2.jpeg",
+    "IMG_5252.jpeg"
+  ],
+  "bahamas": [
+    "IMG_1154.jpeg",
+    "IMG_1160.jpeg",
+    "IMG_1337.jpeg",
+    "IMG_1339.jpeg",
+    "IMG_4162.JPG",
+    "IMG_4164.JPG",
+    "IMG_4476.JPG",
+    "IMG_4489.JPG",
+    "IMG_4532.JPG"
+  ],
+  "vietnam": [
+    "IMG_7689.jpeg"
+  ],
+  "vietnam/sapa": [
+    "0O9A0329.JPG",
+    "0O9A0455.JPG",
+    "0O9A0462.JPG",
+    "0O9A0467.JPG",
+    "0O9A0592.JPG",
+    "0O9A0594.JPG",
+    "0O9A0595.JPG",
+    "0O9A0596.JPG",
+    "0O9A0613.JPG",
+    "0O9A0615.JPG",
+    "0O9A0633.JPG",
+    "0O9A0634.JPG",
+    "0O9A0664.JPG",
+    "0O9A0669.JPG",
+    "0O9A0740.JPG",
+    "0O9A0749.JPG",
+    "0O9A0757.JPG"
   ],
   "vietnam/phu-quoc": [
     "IMG_8041.jpeg",
     "IMG_8047.jpeg",
     "IMG_8048.jpeg",
-    "IMG_8093.jpeg",
-    "IMG_8116.jpeg",
+    "IMG_8052.MOV",
+    "IMG_8094.jpeg",
+    "IMG_8104.jpeg",
+    "IMG_8114.jpeg",
+    "IMG_8115.jpeg",
+    "IMG_8118.jpeg",
+    "IMG_8119.jpeg",
+    "IMG_8211.JPG",
     "IMG_8304.JPG"
-  ],
-  "bahamas": [
-    "IMG_4164.JPG"
   ]
 }

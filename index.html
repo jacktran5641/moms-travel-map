@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>To Anh Loan — A Life Well Traveled</title>
+  <title>Tô Ánh Loan — Một Cuộc Đời Đẹp Đẽ</title>
 
   <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
@@ -20,7 +20,8 @@
   <!-- ── Header ─────────────────────────────────────────── -->
   <header>
     <h1 class="header-title">To Anh Loan</h1>
-    <p class="header-subtitle">A Life Well Traveled</p>
+    <p class="header-subtitle">Một Cuộc Đời Đẹp Đẽ</p>
+    <p id="header-stats"></p>
   </header>
 
   <!-- ── World Map ─────────────────────────────────────── -->
@@ -36,36 +37,91 @@
     <div class="modal">
       <button id="close-location-modal" class="modal-close" aria-label="Close">&times;</button>
       <h2 class="location-modal-title" id="location-country-name"></h2>
-      <p class="location-modal-subtitle">Choose a destination</p>
+      <p class="location-modal-subtitle">Chọn điểm đến</p>
       <ul class="location-list" id="location-list"></ul>
     </div>
   </div>
 
-  <!-- ── Gallery Modal ─────────────────────────────────── -->
-  <div id="gallery-modal" class="modal-backdrop" role="dialog" aria-modal="true">
-    <div class="modal">
-      <button id="close-gallery-modal" class="modal-close" aria-label="Close">&times;</button>
-      <div class="gallery-header">
-        <p class="gallery-country" id="gallery-country-label"></p>
-        <h2 class="gallery-location-title" id="gallery-location-title"></h2>
+  <!-- ── Slideshow ─────────────────────────────────────── -->
+  <div id="slideshow">
+    <div class="slide-layer" id="slide-a"></div>
+    <div class="slide-layer" id="slide-b"></div>
+    <div id="slide-gradient"></div>
+    <div id="slide-collage"></div>
+    <div id="slide-thumbs"></div>
+    <div id="slide-progress"><div id="slide-progress-fill"></div></div>
+    <div id="slide-overlay">
+      <div id="slide-topbar">
+        <div id="slide-view-toggle">
+          <button id="sl-view-ss"  class="view-btn active">Trình chiếu</button>
+          <button id="sl-view-col" class="view-btn">Ảnh ghép</button>
+        </div>
+        <button id="sl-music">&#9834;</button>
+        <input type="range" id="sl-volume" min="0" max="1" step="0.05" value="1" aria-label="Âm lượng" />
+        <button id="sl-close">&times;</button>
       </div>
-      <div class="masonry-grid" id="photo-grid"></div>
+      <div id="slide-meta">
+        <span id="slide-country"></span>
+        <h2 id="slide-location"></h2>
+        <div id="slide-date"></div>
+      </div>
+      <div id="slide-controls">
+        <button id="sl-prev">&#8592;</button>
+        <button id="sl-playpause">&#10074;&#10074;</button>
+        <button id="sl-next">&#8594;</button>
+      </div>
+      <div id="slide-counter"></div>
     </div>
   </div>
+  <audio id="bg-music" loop preload="none"></audio>
 
-  <!-- ── Lightbox ──────────────────────────────────────── -->
-  <div id="lightbox" role="dialog" aria-modal="true">
-    <button id="lb-close" aria-label="Close lightbox">&times;</button>
-    <button id="lb-prev" class="lb-btn" aria-label="Previous photo">&#8592;</button>
-    <img id="lightbox-img" src="" alt="Full size photo" />
-    <button id="lb-next" class="lb-btn" aria-label="Next photo">&#8594;</button>
-    <div id="lb-counter"></div>
+  <!-- ── Intro ─────────────────────────────────────────── -->
+  <div id="intro">
+    <audio id="intro-music" loop preload="auto" src="music/intro.mp3"></audio>
+    <div id="curtain-left"></div>
+    <div id="curtain-right"></div>
+    <div id="intro-text">
+      <p id="intro-line1">Chúc mừng sinh nhật Mẹ</p>
+      <p id="intro-line2">13 tháng 6</p>
+      <p id="intro-line3">Chúc Mẹ một sinh nhật thật vui vẻ!</p>
+      <p id="intro-line4">Đây là bản đồ những nơi Mẹ đã đặt chân đến<br>trong 55 năm cuộc đời đẹp đẽ của Mẹ</p>
+      <button id="intro-skip">Tiếp tục →</button>
+    </div>
   </div>
 
   <!-- ── Footer ────────────────────────────────────────── -->
   <footer>
-    Made with love &nbsp;&#10022;&nbsp; Happy Birthday
+    Làm với tất cả tình yêu &nbsp;&#10022;&nbsp; Chúc Mừng Sinh Nhật
+    <button id="skip-to-end" title="Skip to ending (testing)">✦</button>
   </footer>
+
+  <!-- ── Ending Modal ─────────────────────────────────────── -->
+  <div id="ending-modal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="ending-card">
+      <div class="ending-header">
+        <div class="ending-header-bar"></div>
+        <span class="ending-header-ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+      </div>
+      <img id="ending-photo" alt="" />
+      <div id="ending-text">
+        <p class="ending-line" id="ending-l1">Mẹ đã đi qua bao nhiêu nơi,</p>
+        <p class="ending-line" id="ending-l2">để lại dấu chân trên những vùng đất đẹp nhất.</p>
+        <p class="ending-line" id="ending-l3">Chúc Mẹ mãi khỏe mạnh, bình an,</p>
+        <p class="ending-line" id="ending-l4">và còn nhiều chuyến đi đẹp hơn nữa đang chờ phía trước.</p>
+        <p class="ending-line ending-love" id="ending-l5">Con yêu Mẹ ✦ Chúc Mừng Sinh Nhật</p>
+        <p class="ending-line ending-sig" id="ending-l6">— Bi</p>
+      </div>
+      <button id="ending-close">Tiếp tục →</button>
+    </div>
+  </div>
+
+  <!-- ── Places Panel ─────────────────────────────────────── -->
+  <div id="places-panel">
+    <button id="places-toggle" aria-label="Danh sách địa điểm" title="Hành Trình">&#9776;</button>
+    <div id="places-content">
+      <p class="places-heading">Hành Trình</p>
+    </div>
+  </div>
 
   <!-- App logic -->
   <script src="app.js"></script>

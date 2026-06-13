@@ -19,10 +19,8 @@ const TRAVEL_DATA = {
     name: "Vietnam",
     countryCode: 704,
     locations: {
-      "phu-quoc": {
-        name: "Phu Quoc",
-        folder: "vietnam/phu-quoc"
-      }
+      "phu-quoc": { name: "Phu Quoc", folder: "vietnam/phu-quoc", music: "phu-quoc.mp3", date: "Tháng 6, 2019" },
+      "sapa":     { name: "Sapa",     folder: "vietnam/sapa",     music: "sapa.mp3",     date: "Tháng 9, 2025" }
     }
   },
 
@@ -30,9 +28,9 @@ const TRAVEL_DATA = {
     name: "United States",
     countryCode: 840,
     locations: {
-      "san-jose": { name: "San Jose", folder: "usa/san-jose" },
-      "malibu":   { name: "Malibu",   folder: "usa/malibu"   },
-      "big-sur":  { name: "Big Sur",  folder: "usa/big-sur"  }
+      "san-jose": { name: "San Jose", folder: "usa/san-jose", music: "san-jose.mp3", date: "Tháng 8, 2022" },
+      "malibu":   { name: "Malibu",   folder: "usa/malibu",   music: "malibu.mp3",   date: "Tháng 8, 2022" },
+      "big-sur":  { name: "Big Sur",  folder: "usa/big-sur",  music: "big-sur.mp3",  date: "Tháng 8, 2022" }
     }
   },
 
@@ -40,10 +38,7 @@ const TRAVEL_DATA = {
     name: "Bahamas",
     countryCode: 44,
     locations: {
-      "bahamas": {
-        name: "Bahamas",
-        folder: "bahamas"
-      }
+      "bahamas": { name: "Bahamas", folder: "bahamas", music: "bahamas.mp3", date: "Tháng 7, 2023" }
     }
   }
 };
