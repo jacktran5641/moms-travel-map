@@ -504,6 +504,11 @@ function showEnding() {
   document.getElementById('ending-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 
+  const introMusic = document.getElementById('intro-music');
+  introMusic.currentTime = 0;
+  introMusic.volume = 0.5;
+  introMusic.play().catch(() => {});
+
   // Reset card flip so it replays on repeated opens (skip button)
   const card = document.querySelector('.ending-card');
   card.style.animation = 'none';
@@ -680,7 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // (Intro music is handled separately in runIntro with capture-phase listeners.)
   document.addEventListener('click', function primeAudio() {
     const bgMusic = document.getElementById('bg-music');
-    bgMusic.play().then(() => bgMusic.pause()).catch(() => {});
+    bgMusic.play().then(() => { if (!musicEnabled) bgMusic.pause(); }).catch(() => {});
   }, { once: true });
 
   document.getElementById('places-toggle').addEventListener('click', () => {
@@ -690,6 +695,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('ending-close').addEventListener('click', () => {
     document.getElementById('ending-modal').classList.remove('open');
     document.body.style.overflow = '';
+    const introMusic = document.getElementById('intro-music');
+    introMusic.pause();
+    introMusic.currentTime = 0;
   });
 
   document.getElementById('skip-to-end').addEventListener('click', showEnding);
