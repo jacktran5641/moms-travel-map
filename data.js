@@ -46,7 +46,7 @@ const TRAVEL_DATA = {
     name: "France",
     countryCode: 250,
     locations: {
-      "paris": { name: "Paris", folder: "france/paris", music: "", date: "" }
+      "paris": { name: "Paris", folder: "france/paris", music: "", date: "", placeholder: true }
     }
   },
 
@@ -54,7 +54,7 @@ const TRAVEL_DATA = {
     name: "United Kingdom",
     countryCode: 826,
     locations: {
-      "london": { name: "London", folder: "uk/london", music: "", date: "" }
+      "london": { name: "London", folder: "uk/london", music: "", date: "", placeholder: true }
     }
   },
 
@@ -62,7 +62,7 @@ const TRAVEL_DATA = {
     name: "South Africa",
     countryCode: 710,
     locations: {
-      "south-africa": { name: "South Africa", folder: "southafrica", music: "", date: "" }
+      "south-africa": { name: "South Africa", folder: "southafrica", music: "", date: "", placeholder: true }
     }
   },
 
@@ -70,7 +70,7 @@ const TRAVEL_DATA = {
     name: "Peru",
     countryCode: 604,
     locations: {
-      "peru": { name: "Peru", folder: "peru", music: "", date: "" }
+      "peru": { name: "Peru", folder: "peru", music: "", date: "", placeholder: true }
     }
   },
 
@@ -78,7 +78,7 @@ const TRAVEL_DATA = {
     name: "Argentina",
     countryCode: 32,
     locations: {
-      "argentina": { name: "Argentina", folder: "argentina", music: "", date: "" }
+      "argentina": { name: "Argentina", folder: "argentina", music: "", date: "", placeholder: true }
     }
   },
 
@@ -86,7 +86,7 @@ const TRAVEL_DATA = {
     name: "Brazil",
     countryCode: 76,
     locations: {
-      "brazil": { name: "Brazil", folder: "brazil", music: "", date: "" }
+      "brazil": { name: "Brazil", folder: "brazil", music: "", date: "", placeholder: true }
     }
   },
 
@@ -94,7 +94,7 @@ const TRAVEL_DATA = {
     name: "UAE",
     countryCode: 784,
     locations: {
-      "dubai": { name: "Dubai", folder: "uae/dubai", music: "", date: "" }
+      "dubai": { name: "Dubai", folder: "uae/dubai", music: "", date: "", placeholder: true }
     }
   },
 
@@ -102,7 +102,39 @@ const TRAVEL_DATA = {
     name: "Singapore",
     countryCode: 702,
     locations: {
-      "singapore": { name: "Singapore", folder: "singapore", music: "", date: "" }
+      "singapore": { name: "Singapore", folder: "singapore", music: "", date: "", placeholder: true }
+    }
+  },
+
+  indonesia: {
+    name: "Indonesia",
+    countryCode: 360,
+    locations: {
+      "bali": { name: "Bali", folder: "indonesia/bali", music: "", date: "", placeholder: true }
+    }
+  },
+
+  australia: {
+    name: "Australia",
+    countryCode: 36,
+    locations: {
+      "australia": { name: "Australia", folder: "australia", music: "", date: "", placeholder: true }
+    }
+  },
+
+  japan: {
+    name: "Japan",
+    countryCode: 392,
+    locations: {
+      "japan": { name: "Japan", folder: "japan", music: "", date: "", placeholder: true }
+    }
+  },
+
+  germany: {
+    name: "Germany",
+    countryCode: 276,
+    locations: {
+      "germany": { name: "Germany", folder: "germany", music: "", date: "", placeholder: true }
     }
   }
 };

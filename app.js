@@ -99,6 +99,18 @@ async function init() {
     .attr('viewBox', `0 0 ${mapW} ${mapH}`)
     .attr('preserveAspectRatio', 'xMidYMid meet');
 
+  // Diagonal hatch pattern for placeholder countries (no photos yet)
+  const defs = mapSvg.append('defs');
+  const pattern = defs.append('pattern')
+    .attr('id', 'placeholder-hatch')
+    .attr('patternUnits', 'userSpaceOnUse')
+    .attr('width', 5).attr('height', 5)
+    .attr('patternTransform', 'rotate(45)');
+  pattern.append('rect').attr('width', 5).attr('height', 5).attr('fill', '#E2C97E').attr('fill-opacity', 0.18);
+  pattern.append('line')
+    .attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 5)
+    .attr('stroke', '#C9A84C').attr('stroke-width', 1.4).attr('stroke-opacity', 0.5);
+
   const projection = d3.geoNaturalEarth1()
     .scale(mapW / 6.2)
     .translate([mapW / 2, mapH / 2]);
@@ -122,7 +134,9 @@ async function init() {
     .append('path')
     .attr('class', d => {
       const key = codeMap[+d.id];
-      return key ? 'country country-visited' : 'country country-unvisited';
+      if (!key) return 'country country-unvisited';
+      const isPlaceholder = Object.values(TRAVEL_DATA[key].locations).every(l => l.placeholder);
+      return isPlaceholder ? 'country country-placeholder' : 'country country-visited';
     })
     .attr('d', mapPath)
     .on('mouseenter', function(event, d) {
@@ -146,7 +160,7 @@ async function init() {
       // Start music immediately while still inside the user-gesture context,
       // before the 800ms zoom animation expires the browser's autoplay permission.
       const locs = Object.values(TRAVEL_DATA[key].locations);
-      if (locs.length === 1 && locs[0].music) loadAndPlayMusic(locs[0].music);
+      if (locs.length === 1 && locs[0].music && !locs[0].placeholder) loadAndPlayMusic(locs[0].music);
       zoomToCountry(d, () => handleCountryClick(key));
     });
 }
@@ -466,14 +480,14 @@ function buildPlacesPanel() {
 
     for (const [lKey, loc] of Object.entries(country.locations)) {
       const btn = document.createElement('button');
-      btn.className = 'places-loc-btn';
+      btn.className = loc.placeholder ? 'places-loc-btn places-loc-placeholder' : 'places-loc-btn';
       btn.dataset.country = cKey;
       btn.dataset.loc = lKey;
       btn.textContent = loc.name;
       btn.addEventListener('click', () => {
         closeModal('location-modal');
         document.getElementById('places-panel').classList.remove('open');
-        openSlideshow(cKey, lKey, country.name, loc, loc.music || null);
+        if (!loc.placeholder) openSlideshow(cKey, lKey, country.name, loc, loc.music || null);
       });
       section.appendChild(btn);
     }
@@ -517,8 +531,9 @@ function markVisited(countryKey, locKey) {
   );
   if (btn) btn.classList.add('visited');
 
-  const total = Object.values(TRAVEL_DATA).reduce((n, c) => n + Object.keys(c.locations).length, 0);
-  const visited = document.querySelectorAll('.places-loc-btn.visited').length;
+  const total = Object.values(TRAVEL_DATA).reduce((n, c) =>
+    n + Object.values(c.locations).filter(l => !l.placeholder).length, 0);
+  const visited = document.querySelectorAll('.places-loc-btn:not(.places-loc-placeholder).visited').length;
   if (visited >= total && !_endingQueued) {
     _endingQueued = true;
     document.addEventListener('slideshowClosed', () => setTimeout(showEnding, 400), { once: true });
