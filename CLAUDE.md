@@ -6,18 +6,20 @@ A birthday gift website for Tô Ánh Loan (born June 13, 1971 — 55 years old).
 
 The site is entirely static — no build step, no framework, no server-side code. Open `index.html` directly in a browser, or run `python3 -m http.server 8080` from this directory.
 
+**Live URL:** `https://jacktran5641.github.io/moms-travel-map`
+
 ## File overview
 
 | File | Role |
 |------|------|
 | `index.html` | Single-page shell — all structure, no logic |
 | `data.js` | **The only file you normally edit.** Lists visited countries, locations, photo folders, music files, and dates |
-| `app.js` | All interactivity: map rendering (D3 + TopoJSON), intro, slideshow, collage, modals, music, keyboard nav |
+| `app.js` | All interactivity: map rendering (D3 + TopoJSON), intro, slideshow, collage, modals, music, keyboard nav, ending screen |
 | `style.css` | All styling. CSS variables in `:root` control the color palette |
-| `photos/` | One subfolder per location (path must match `folder` key in `data.js`) |
+| `photos/` | One subfolder per location (path must match `folder` key in `data.js`); `ending.JPG` is the ending card photo |
 | `music/` | One `.mp3` per location (filename must match `music` key in `data.js`); `intro.mp3` plays during the curtain intro |
-| `generate_manifest.py` | Run this after adding photos to regenerate `photos/manifest.json` — required for the slideshow to find images when served as a static file without directory listing |
-| `.github/workflows/update-manifest.yml` | GitHub Action that auto-regenerates the manifest on push |
+| `generate_manifest.py` | Run this after adding photos to regenerate `photos/manifest.json` — required for the slideshow to find images on GitHub Pages (no directory listing) |
+| `.github/workflows/update-manifest.yml` | GitHub Action that auto-regenerates the manifest on every push |
 
 ## Adding a new country
 
@@ -35,10 +37,24 @@ The site is entirely static — no build step, no framework, no server-side code
 3. Drop photos into `photos/japan/tokyo/`.
 4. Drop the music file into `music/tokyo.mp3`.
 5. Run `python3 generate_manifest.py` to update `photos/manifest.json`.
+6. Commit and push — GitHub Actions will also regenerate the manifest automatically.
 
 ## Adding photos to an existing location
 
-Just drop image files (JPG, PNG, WEBP, AVIF, GIF, HEIC) or videos (MP4, MOV, WEBM, M4V) into the matching `photos/<folder>/` directory, then re-run the manifest generator.
+Drop image files (JPG, PNG, WEBP, AVIF, GIF, HEIC) or videos (MP4, MOV, WEBM, M4V) into the matching `photos/<folder>/` directory.
+
+- **Local dev**: photos appear immediately on refresh (live directory scan, no manifest needed).
+- **GitHub Pages**: run `python3 generate_manifest.py` then commit+push so the manifest is updated.
+
+## Features implemented
+
+- **D3 zoom/pan** — scroll or pinch to zoom; drag to pan; click a visited country to zoom in
+- **Places panel** — collapsible sidebar listing all countries/locations; items get a strikethrough when visited this session
+- **Ending screen** — after all locations are viewed in a session, a 3D card animates in with a personal photo (`photos/ending.JPG`), Vietnamese birthday message, and signature "— Bi"
+- **Volume slider** — in the slideshow top bar
+- **Video support** — `.MOV`/`.MP4`/`.WEBM` files play inline in the slideshow; images are always sorted first
+- **Music autoplay fix** — music fires synchronously in the click handler (before async zoom) to stay within the browser's user-gesture window
+- **Skip-to-end button** — tiny `✦` in the footer for testing the ending screen without watching all slideshows
 
 ## Color palette (CSS variables)
 
@@ -46,7 +62,8 @@ Just drop image files (JPG, PNG, WEBP, AVIF, GIF, HEIC) or videos (MP4, MOV, WEB
 --bg:       #FAF8F5   warm off-white background
 --gold:     #C9A84C   visited countries, accents, active elements
 --gold-lt:  #E2C97E   lighter gold
---rose:     #D4868A   hover state on visited countries
+--rose:     #D4868A   hover state on visited countries / rose accents
+--rose-lt:  lighter rose used for ornaments
 --text:     #2C2826   near-black body text
 --muted:    #9A948E   secondary / subdued text
 --gray-map: #D8D3CD   unvisited countries
@@ -54,20 +71,25 @@ Just drop image files (JPG, PNG, WEBP, AVIF, GIF, HEIC) or videos (MP4, MOV, WEB
 
 ## Current travel data
 
-| Country | Locations |
-|---------|-----------|
-| Vietnam | Phu Quoc (June 2019), Sapa |
-| United States | San Jose (Aug 2022), Malibu (Aug 2022), Big Sur (Aug 2022) |
-| Bahamas | Bahamas (July 2023) |
+| Country | Locations | Music file |
+|---------|-----------|------------|
+| Vietnam | Phu Quoc (Tháng 6, 2019), Sapa (Tháng 9, 2025) | `phu-quoc.mp3`, `sapa.mp3` |
+| United States | San Jose (Tháng 8, 2022), Malibu (Tháng 8, 2022), Big Sur (Tháng 8, 2022) | `san-jose.mp3`, `malibu.mp3`, `big-sur.mp3` |
+| Bahamas | Bahamas (Tháng 7, 2023) | `bahamas.mp3` |
 
 ## Music files present
 
-`music/intro.mp3`, `music/phu-quoc.mp3`, `music/sapa.mp3`, `music/malibu.MP3` — note: `san-jose.mp3` and `bahamas` music are referenced in `data.js` but files may be missing; the app silently skips missing music.
+All 7 music files are present: `intro.mp3`, `phu-quoc.mp3`, `sapa.mp3`, `san-jose.mp3`, `malibu.mp3`, `big-sur.mp3`, `bahamas.mp3`
 
-## Clarification questions / known gaps
+## Deployment
 
-- **Sapa date**: `data.js` has `date: ""` for Sapa — fill in the actual visit date when known.
-- **Music files**: `san-jose.mp3` is listed in `data.js` but not present in `music/` — add if available.
-- **More countries**: Are there other countries (France, Japan, etc.) to add? The map only shows what's in `data.js`.
-- **Hosting**: Is this meant to be deployed somewhere (GitHub Pages, Vercel) so Mom can visit it via URL, or is it a one-time local presentation?
-- **Intro music**: `music/intro.MP3` exists (uppercase extension) but `index.html` references `music/intro.mp3` (lowercase) — on case-sensitive file systems this will fail. Safe to rename the file to lowercase.
+Hosted on GitHub Pages at `https://jacktran5641.github.io/moms-travel-map`.  
+Push to `main` → GitHub Actions regenerates `manifest.json` → Pages deploys automatically (takes ~1–2 min).
+
+Music autoplay works on the live HTTPS URL. In Brave, if music is blocked, click the lion icon → Shields → allow autoplay for the site.
+
+## Known gaps / future ideas
+
+- **More countries**: Are there other countries to add? The map only shows what's in `data.js`.
+- **Stray file**: `photos/vietnam/IMG_7689.jpeg` is in the Vietnam root folder (not linked to any location) — delete or move it.
+- **Video audio**: Slideshow videos play with audio unmuted; this can overlap with background music. To mute video audio, add `vid.muted = true` in `showSlide()` in `app.js`.
