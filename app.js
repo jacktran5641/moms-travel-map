@@ -22,15 +22,16 @@ function runIntro() {
   const introMusic = document.getElementById('intro-music');
   introMusic.volume = 0.5;
 
-  function tryPlayIntroMusic() {
-    introMusic.play().catch(() => {});
-    intro.removeEventListener('mousemove', tryPlayIntroMusic);
-    intro.removeEventListener('touchstart', tryPlayIntroMusic);
-    intro.removeEventListener('click', tryPlayIntroMusic);
-  }
-  intro.addEventListener('mousemove', tryPlayIntroMusic);
-  intro.addEventListener('touchstart', tryPlayIntroMusic, { passive: true });
-  intro.addEventListener('click', tryPlayIntroMusic);
+  // Try immediate autoplay; if blocked, play on the very first gesture (capture
+  // phase so it fires before any child handler like the skip button).
+  introMusic.play().catch(() => {
+    document.addEventListener('click', function playIntroOnce() {
+      introMusic.play().catch(() => {});
+    }, { capture: true, once: true });
+    document.addEventListener('touchstart', function playIntroOnce() {
+      introMusic.play().catch(() => {});
+    }, { capture: true, once: true, passive: true });
+  });
 
   document.getElementById('intro-skip').addEventListener('click', closeIntro);
 }
@@ -660,13 +661,11 @@ document.addEventListener('DOMContentLoaded', () => {
   buildPlacesPanel();
   runIntro();
 
-  // Prime audio on first click so Brave/strict browsers allow play() after async delays
+  // Prime bgMusic on first click so Brave/strict browsers allow play() after async delays.
+  // (Intro music is handled separately in runIntro with capture-phase listeners.)
   document.addEventListener('click', function primeAudio() {
     const bgMusic = document.getElementById('bg-music');
     bgMusic.play().then(() => bgMusic.pause()).catch(() => {});
-    const introMusic = document.getElementById('intro-music');
-    introMusic.play().then(() => introMusic.pause()).catch(() => {});
-    document.removeEventListener('click', primeAudio);
   }, { once: true });
 
   document.getElementById('places-toggle').addEventListener('click', () => {
