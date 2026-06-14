@@ -65,7 +65,7 @@ body::before {
   opacity: 0.65;
 }
 .vine-left  { left: 0; }
-.vine-right { right: 0; }
+.vine-right { right: 36px; }
 .vine svg { width: 100%; height: 100%; display: block; }
 
 @media (max-width: 900px) {

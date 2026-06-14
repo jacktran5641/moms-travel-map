@@ -15,6 +15,8 @@ function buildCodeMap() {
 }
 
 // ── Intro ─────────────────────────────────────────────────
+let _introPlayPromise = null;
+
 function runIntro() {
   const intro = document.getElementById('intro');
   setTimeout(() => intro.classList.add('open'), 200);
@@ -22,33 +24,38 @@ function runIntro() {
   const introMusic = document.getElementById('intro-music');
   introMusic.volume = 0.5;
 
-  // Try immediate autoplay; if blocked, play on the very first gesture (capture
-  // phase so it fires before any child handler like the skip button).
-  // Both listeners share a named handler so they can be removed together, and
-  // we skip the deferred play if the user's first gesture is the skip button
-  // (otherwise the play() promise resolves after pause() on mobile, leaking audio).
-  introMusic.play().catch(() => {
-    function onFirstGesture(e) {
-      document.removeEventListener('click', onFirstGesture, true);
-      document.removeEventListener('touchstart', onFirstGesture, true);
-      if (e.target && e.target.closest && e.target.closest('#intro-skip')) return;
-      introMusic.play().catch(() => {});
-    }
-    document.addEventListener('click', onFirstGesture, { capture: true });
-    document.addEventListener('touchstart', onFirstGesture, { capture: true, passive: true });
-  });
+  // Try immediate autoplay; if blocked, unlock on the first user gesture.
+  // We track the promise so fadeOutIntroMusic can chain after it on mobile
+  // and avoid the "pause() before play() resolves" race condition.
+  _introPlayPromise = introMusic.play();
+  if (_introPlayPromise) {
+    _introPlayPromise.catch(() => {
+      function onFirstGesture() {
+        document.removeEventListener('click', onFirstGesture, true);
+        document.removeEventListener('touchstart', onFirstGesture, true);
+        _introPlayPromise = introMusic.play().catch(() => {});
+      }
+      document.addEventListener('click', onFirstGesture, { capture: true });
+      document.addEventListener('touchstart', onFirstGesture, { capture: true, passive: true });
+    });
+  }
 
   document.getElementById('intro-skip').addEventListener('click', closeIntro);
 }
 
 function fadeOutIntroMusic() {
   const audio = document.getElementById('intro-music');
-  const steps = 30;
-  const stepSize = audio.volume / steps;
-  const fade = setInterval(() => {
-    audio.volume = Math.max(0, audio.volume - stepSize);
-    if (audio.volume <= 0) { audio.pause(); clearInterval(fade); }
-  }, 50);
+  const doFade = () => {
+    if (audio.paused) return;
+    const steps = 30;
+    const stepSize = audio.volume / steps;
+    const fade = setInterval(() => {
+      audio.volume = Math.max(0, audio.volume - stepSize);
+      if (audio.volume <= 0) { audio.pause(); clearInterval(fade); }
+    }, 50);
+  };
+  // Chain after any pending play() promise to avoid mobile race condition
+  Promise.resolve(_introPlayPromise).then(doFade).catch(() => {});
 }
 
 function closeIntro() {
