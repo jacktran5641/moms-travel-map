@@ -52,14 +52,16 @@ function fadeOutIntroMusic() {
   const audio = document.getElementById('intro-music');
   const doFade = () => {
     if (audio.paused) return;
-    const steps = 30;
+    const steps = 25;
     const stepSize = audio.volume / steps;
     const fade = setInterval(() => {
       audio.volume = Math.max(0, audio.volume - stepSize);
-      if (audio.volume <= 0) { audio.pause(); clearInterval(fade); }
-    }, 50);
+      if (audio.volume <= 0) { audio.pause(); audio.currentTime = 0; clearInterval(fade); }
+    }, 40);
+    // iOS doesn't allow setting audio.volume, so the interval never completes.
+    // Force-pause after the expected fade duration as a safety net.
+    setTimeout(() => { clearInterval(fade); audio.pause(); audio.currentTime = 0; }, steps * 40 + 150);
   };
-  // Chain after any pending play() promise to avoid mobile race condition
   Promise.resolve(_introPlayPromise).then(doFade).catch(() => {});
 }
 
