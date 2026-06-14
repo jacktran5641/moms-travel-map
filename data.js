@@ -29,7 +29,7 @@ const TRAVEL_DATA = {
     countryCode: 840,
     locations: {
       "san-jose": { name: "San Jose", folder: "usa/san-jose", music: "san-jose.mp3", date: "Tháng 8, 2022" },
-      "malibu":   { name: "Malibu",   folder: "usa/malibu",   music: "malibu.mp3",   date: "Tháng 8, 2022" },
+      "malibu":   { name: "Malibu",   folder: "usa/malibu",   music: "malibu-2.mp3",   date: "Tháng 8, 2022" },
       "big-sur":  { name: "Big Sur",  folder: "usa/big-sur",  music: "big-sur.mp3",  date: "Tháng 8, 2022" }
     }
   },
