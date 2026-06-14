@@ -62,14 +62,15 @@ body::before {
   width: 88px;
   pointer-events: none;
   z-index: 2;
-  opacity: 0.65;
+  /* opacity lives on the SVG element, not here, to avoid compositing layer
+     that can paint the vine above higher-z-index siblings in some browsers */
 }
 .vine-left  { left: 0; }
 .vine-right { right: 36px; }
 .vine svg { width: 100%; height: 100%; display: block; }
 
 @media (max-width: 900px) {
-  .vine { width: 56px; opacity: 0.45; }
+  .vine { width: 56px; }
 }
 @media (max-width: 600px) {
   .vine { display: none; }
@@ -141,6 +142,47 @@ body::before {
   line-height: 1;
 }
 
+/* ─── Intro Gate (tap to begin) ─────────────────────────── */
+#intro-gate {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  pointer-events: auto;
+  transition: opacity 0.5s ease;
+}
+#intro-gate.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.intro-gate-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0.22em;
+}
+#intro-gate-btn {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  letter-spacing: 0.28em;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.45);
+  padding: 13px 38px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+#intro-gate-btn:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.07);
+}
+
 /* ─── Intro Ornament ─────────────────────────────────────── */
 .intro-ornament {
   display: block;
@@ -148,7 +190,6 @@ body::before {
   width: clamp(120px, 40%, 200px);
   height: auto;
   opacity: 0;
-  animation: intro-fade-in 0.8s ease forwards 0.7s;
   overflow: visible;
 }
 .intro-rule {
@@ -159,7 +200,6 @@ body::before {
   letter-spacing: 0.3em;
   opacity: 0;
   margin: 20px 0 0;
-  animation: intro-fade-in 0.8s ease forwards 2.6s;
 }
 
 /* ─── Falling Petals ────────────────────────────────────── */
@@ -859,17 +899,21 @@ footer {
   line-height: 1.7;
 }
 
-#intro-line1, #intro-line2, #intro-line3, #intro-line4 {
+/* All intro elements start hidden; animations only fire after gate click */
+.intro-ornament, .intro-rule,
+#intro-line1, #intro-line2, #intro-line3, #intro-line4, #intro-skip {
   opacity: 0;
-  animation: intro-fade-in 0.8s ease forwards;
 }
 
-#intro-line1 { animation-delay: 1.3s; }
-#intro-line2 { animation-delay: 1.8s; }
-#intro-line3 { animation-delay: 2.3s; }
-#intro-line4 { animation-delay: 2.8s; }
-
 @keyframes intro-fade-in { to { opacity: 1; } }
+
+#intro.playing .intro-ornament { animation: intro-fade-in 0.8s ease forwards 0.4s; }
+#intro.playing #intro-line1    { animation: intro-fade-in 0.8s ease forwards 0.9s; }
+#intro.playing #intro-line2    { animation: intro-fade-in 0.8s ease forwards 1.4s; }
+#intro.playing #intro-line3    { animation: intro-fade-in 0.8s ease forwards 1.9s; }
+#intro.playing .intro-rule     { animation: intro-fade-in 0.8s ease forwards 2.3s; }
+#intro.playing #intro-line4    { animation: intro-fade-in 0.8s ease forwards 2.7s; }
+#intro.playing #intro-skip     { animation: intro-fade-in 0.8s ease forwards 3.4s; }
 
 #intro-skip {
   margin-top: 40px;
@@ -883,8 +927,6 @@ footer {
   padding: 10px 24px;
   border-radius: 3px;
   cursor: pointer;
-  opacity: 0;
-  animation: intro-fade-in 0.8s ease forwards 3.5s;
   transition: color 0.2s, border-color 0.2s;
   font-family: 'Montserrat', sans-serif;
 }
@@ -1143,13 +1185,34 @@ footer {
 }
 
 .places-country-name {
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 10px 20px 6px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  padding: 8px 20px;
   white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s;
+  display: block;
+  width: 100%;
+  text-align: left;
 }
+.places-country-name:hover { color: var(--rose); }
+.places-country-name.is-placeholder {
+  color: var(--muted);
+  cursor: default;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.places-country-name.is-placeholder:hover { color: var(--muted); }
+.places-country.visited .places-country-name {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+/* Location buttons stay in DOM for tracking but are hidden visually */
+#places-content .places-loc-btn { display: none; }
 
 .places-loc-btn {
   display: block;

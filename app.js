@@ -18,27 +18,21 @@ function buildCodeMap() {
 let _introPlayPromise = null;
 
 function runIntro() {
-  const intro = document.getElementById('intro');
-  setTimeout(() => intro.classList.add('open'), 200);
-
+  const intro      = document.getElementById('intro');
+  const gate       = document.getElementById('intro-gate');
   const introMusic = document.getElementById('intro-music');
   introMusic.volume = 0.5;
 
-  // Try immediate autoplay; if blocked, unlock on the first user gesture.
-  // We track the promise so fadeOutIntroMusic can chain after it on mobile
-  // and avoid the "pause() before play() resolves" race condition.
-  _introPlayPromise = introMusic.play();
-  if (_introPlayPromise) {
-    _introPlayPromise.catch(() => {
-      function onFirstGesture() {
-        document.removeEventListener('click', onFirstGesture, true);
-        document.removeEventListener('touchstart', onFirstGesture, true);
-        _introPlayPromise = introMusic.play().catch(() => {});
-      }
-      document.addEventListener('click', onFirstGesture, { capture: true });
-      document.addEventListener('touchstart', onFirstGesture, { capture: true, passive: true });
-    });
-  }
+  // Gate click: unlock audio (within user-gesture window), open curtains, start animations.
+  // This is the only reliable way to autoplay audio — browsers require a direct user action.
+  gate.addEventListener('click', () => {
+    gate.classList.add('hidden');
+    _introPlayPromise = introMusic.play().catch(() => {});
+    setTimeout(() => {
+      intro.classList.add('open');    // curtains part
+      intro.classList.add('playing'); // triggers CSS animations
+    }, 80);
+  }, { once: true });
 
   document.getElementById('intro-skip').addEventListener('click', closeIntro);
 }
@@ -497,28 +491,43 @@ function buildCollage() {
 // ── Places panel ──────────────────────────────────────────
 function buildPlacesPanel() {
   const content = document.getElementById('places-content');
+  content.innerHTML = '<p class="places-heading">Quốc Gia</p>';
+
   for (const [cKey, country] of Object.entries(TRAVEL_DATA)) {
     const section = document.createElement('div');
     section.className = 'places-country';
+    section.dataset.country = cKey;
 
+    const realLocs = Object.entries(country.locations).filter(([, l]) => !l.placeholder);
+    const allPlaceholder = realLocs.length === 0;
+
+    // Country name — clickable if it has real locations
     const h = document.createElement('p');
-    h.className = 'places-country-name';
+    h.className = 'places-country-name' + (allPlaceholder ? ' is-placeholder' : '');
     h.textContent = country.name;
+    if (!allPlaceholder) {
+      h.addEventListener('click', () => {
+        document.getElementById('places-panel').classList.remove('open');
+        if (realLocs.length === 1) {
+          const [lKey, loc] = realLocs[0];
+          if (loc.music) loadAndPlayMusic(loc.music);
+          openSlideshow(cKey, lKey, country.name, loc, loc.music || null);
+        } else {
+          openLocationPicker(country, cKey);
+        }
+      });
+    }
     section.appendChild(h);
 
+    // Hidden location buttons — stay in DOM so markVisited tracking still works
     for (const [lKey, loc] of Object.entries(country.locations)) {
       const btn = document.createElement('button');
       btn.className = loc.placeholder ? 'places-loc-btn places-loc-placeholder' : 'places-loc-btn';
       btn.dataset.country = cKey;
       btn.dataset.loc = lKey;
-      btn.textContent = loc.name;
-      btn.addEventListener('click', () => {
-        closeModal('location-modal');
-        document.getElementById('places-panel').classList.remove('open');
-        if (!loc.placeholder) openSlideshow(cKey, lKey, country.name, loc, loc.music || null);
-      });
       section.appendChild(btn);
     }
+
     content.appendChild(section);
   }
 }
@@ -563,6 +572,10 @@ function markVisited(countryKey, locKey) {
     `.places-loc-btn[data-country="${countryKey}"][data-loc="${locKey}"]`
   );
   if (btn) btn.classList.add('visited');
+
+  // Strike through the country name when any location is visited
+  const section = document.querySelector(`.places-country[data-country="${countryKey}"]`);
+  if (section) section.classList.add('visited');
 
   const total = Object.values(TRAVEL_DATA).reduce((n, c) =>
     n + Object.values(c.locations).filter(l => !l.placeholder).length, 0);
