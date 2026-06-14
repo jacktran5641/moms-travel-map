@@ -776,14 +776,14 @@ body::before {
 /* ─── Footer ─────────────────────────────────────────────── */
 #map-hint {
   position: fixed;
-  top: 140px;
-  left: 96px;
+  top: 155px;
+  left: 100px;
   z-index: 10;
-  max-width: 140px;
+  max-width: 145px;
   text-align: center;
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: 1rem;
+  font-size: 1.15rem;
   line-height: 1.55;
   color: var(--rose);
   letter-spacing: 0.03em;
@@ -794,8 +794,18 @@ body::before {
   0%, 100% { transform: translateY(0px);  }
   50%       { transform: translateY(-10px); }
 }
+@keyframes hint-bob-center {
+  0%, 100% { transform: translateX(-50%) translateY(0px);  }
+  50%       { transform: translateX(-50%) translateY(-10px); }
+}
 @media (max-width: 600px) {
-  #map-hint { display: none; }
+  #map-hint {
+    top: 78px;
+    left: 50%;
+    max-width: 220px;
+    font-size: 1rem;
+    animation: hint-bob-center 1.8s ease-in-out infinite;
+  }
 }
 
 footer {
