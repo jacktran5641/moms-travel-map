@@ -313,7 +313,7 @@ body::before {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 16px 56px;
+  padding: 0 16px 8px;
 }
 
 #world-map {
@@ -810,7 +810,7 @@ body::before {
 
 footer {
   text-align: center;
-  padding: 24px;
+  padding: 6px 24px 16px;
   font-size: 0.7rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
