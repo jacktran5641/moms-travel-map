@@ -313,7 +313,7 @@ body::before {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 16px 8px;
+  padding: 0 16px 56px;
 }
 
 #world-map {
@@ -775,14 +775,27 @@ body::before {
 
 /* ─── Footer ─────────────────────────────────────────────── */
 #map-hint {
+  position: fixed;
+  top: 140px;
+  left: 14px;
+  z-index: 10;
+  max-width: 108px;
   text-align: center;
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: clamp(0.82rem, 2vw, 0.95rem);
-  color: var(--muted);
-  letter-spacing: 0.08em;
-  padding: 0 24px 20px;
-  opacity: 0.75;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--rose);
+  letter-spacing: 0.03em;
+  pointer-events: none;
+  animation: hint-bob 1.8s ease-in-out infinite;
+}
+@keyframes hint-bob {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-10px); }
+}
+@media (max-width: 600px) {
+  #map-hint { display: none; }
 }
 
 footer {
