@@ -50,19 +50,24 @@ function runIntro() {
 
 function fadeOutIntroMusic() {
   const audio = document.getElementById('intro-music');
-  const doFade = () => {
-    if (audio.paused) return;
-    const steps = 25;
-    const stepSize = audio.volume / steps;
-    const fade = setInterval(() => {
-      audio.volume = Math.max(0, audio.volume - stepSize);
-      if (audio.volume <= 0) { audio.pause(); audio.currentTime = 0; clearInterval(fade); }
-    }, 40);
-    // iOS doesn't allow setting audio.volume, so the interval never completes.
-    // Force-pause after the expected fade duration as a safety net.
-    setTimeout(() => { clearInterval(fade); audio.pause(); audio.currentTime = 0; }, steps * 40 + 150);
+  const hardStop = () => {
+    try { audio.pause(); } catch(e) {}
+    try { audio.currentTime = 0; } catch(e) {}
   };
-  Promise.resolve(_introPlayPromise).then(doFade).catch(() => {});
+  const doFade = () => {
+    // Use a tick counter — not audio.volume — as the exit condition.
+    // On iOS, audio.volume is read-only so checking it never terminates.
+    let tick = 0;
+    const STEPS = 20;
+    const startVol = 0.5;
+    const fade = setInterval(() => {
+      tick++;
+      try { audio.volume = Math.max(0, startVol * (1 - tick / STEPS)); } catch(e) {}
+      if (tick >= STEPS) { clearInterval(fade); hardStop(); }
+    }, 40);
+    setTimeout(() => { clearInterval(fade); hardStop(); }, STEPS * 40 + 300);
+  };
+  Promise.resolve(_introPlayPromise).then(doFade).catch(hardStop);
 }
 
 function closeIntro() {
