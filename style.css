@@ -1077,7 +1077,7 @@ footer {
   top: 0;
   right: 0;
   height: 100%;
-  z-index: 10;
+  z-index: 500;
   display: flex;
   flex-direction: row-reverse;
   align-items: stretch;
