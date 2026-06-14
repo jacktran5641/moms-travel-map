@@ -1041,6 +1041,7 @@ footer {
   width: min(440px, 92vw);
   overflow: visible;
   position: relative;
+  perspective: 1200px;
   animation: card-flip-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   transform-origin: center center;
   box-shadow:
@@ -1048,6 +1049,110 @@ footer {
     4px 10px 0 0 rgba(44,40,38,0.07),
     0 24px 48px rgba(44,40,38,0.32),
     0 60px 100px rgba(44,40,38,0.18);
+}
+
+.ending-card-inner {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ending-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.ending-card-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 10px;
+}
+
+.ending-card-front {
+  position: relative;
+}
+
+.ending-card-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  background: linear-gradient(160deg, #FDF8F0 0%, #F4EBE0 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 28px 28px;
+  overflow: hidden;
+}
+
+.ending-back-topbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent 0%, var(--gold) 25%, var(--rose) 50%, var(--gold) 75%, transparent 100%);
+  border-radius: 10px 10px 0 0;
+}
+
+.ending-back-ornament {
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  color: var(--rose-lt);
+  margin-bottom: 10px;
+}
+
+.ending-back-floral {
+  width: 180px;
+  height: auto;
+  margin-bottom: 4px;
+}
+
+.ending-back-rule {
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold) 40%, var(--gold) 60%, transparent);
+  margin: 10px auto;
+}
+
+.ending-back-rule-sm {
+  width: 30%;
+  margin: 8px auto;
+}
+
+.ending-back-wish {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.9rem, 6vw, 2.6rem);
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+.ending-back-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.6rem, 5vw, 2.1rem);
+  color: var(--rose);
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+
+.ending-back-date {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.72rem, 2vw, 0.85rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.ending-back-stars {
+  font-size: 0.7rem;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-top: 10px;
+  letter-spacing: 0.3em;
 }
 
 /* Second card page */
@@ -1170,7 +1275,7 @@ footer {
   letter-spacing: 0.08em;
 }
 
-#ending-close {
+#ending-flip {
   display: block;
   margin: 20px auto 28px;
   background: none;
@@ -1189,10 +1294,29 @@ footer {
   animation-delay: 3.4s;
 }
 
-#ending-close:hover {
+#ending-flip:hover {
   background: rgba(212,134,138,0.08);
   border-color: var(--rose);
-  color: var(--rose);
+}
+
+#ending-close {
+  margin-top: 18px;
+  background: none;
+  border: 1px solid rgba(201,168,76,0.4);
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  padding: 7px 20px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+#ending-close:hover {
+  background: rgba(201,168,76,0.08);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
 #skip-to-end {

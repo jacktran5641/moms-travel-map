@@ -573,11 +573,14 @@ function showEnding() {
   endingMusic.volume = 0.5;
   endingMusic.play().catch(() => {});
 
-  // Reset card flip so it replays on repeated opens (skip button)
+  // Reset card entry animation so it replays on repeated opens (skip button)
   const card = document.querySelector('.ending-card');
   card.style.animation = 'none';
   void card.offsetWidth;
   card.style.animation = '';
+
+  // Reset inner flip to front face
+  document.querySelector('.ending-card-inner').classList.remove('flipped');
 
   // Reset and restagger text lines
   document.querySelectorAll('.ending-line').forEach((el, i) => {
@@ -587,11 +590,11 @@ function showEnding() {
     el.classList.add('animate');
   });
 
-  // Reset close button
-  const closeBtn = document.getElementById('ending-close');
-  closeBtn.style.animation = 'none';
-  void closeBtn.offsetWidth;
-  closeBtn.style.animation = '';
+  // Reset flip button animation
+  const flipBtn = document.getElementById('ending-flip');
+  flipBtn.style.animation = 'none';
+  void flipBtn.offsetWidth;
+  flipBtn.style.animation = '';
 }
 
 function markVisited(countryKey, locKey) {
@@ -810,6 +813,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('places-toggle').addEventListener('click', () => {
     document.getElementById('places-panel').classList.toggle('open');
+  });
+
+  document.getElementById('ending-flip').addEventListener('click', () => {
+    document.querySelector('.ending-card-inner').classList.add('flipped');
   });
 
   document.getElementById('ending-close').addEventListener('click', () => {

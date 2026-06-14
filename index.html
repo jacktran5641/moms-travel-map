@@ -288,20 +288,58 @@
   <!-- ── Ending Modal ─────────────────────────────────────── -->
   <div id="ending-modal" class="modal-backdrop" role="dialog" aria-modal="true">
     <div class="ending-card">
-      <div class="ending-header">
-        <div class="ending-header-bar"></div>
-        <span class="ending-header-ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+      <div class="ending-card-inner">
+
+        <!-- ── Front face ─────────────────────────────────── -->
+        <div class="ending-card-face ending-card-front">
+          <div class="ending-header">
+            <div class="ending-header-bar"></div>
+            <span class="ending-header-ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+          </div>
+          <img id="ending-photo" alt="" />
+          <div id="ending-text">
+            <p class="ending-line" id="ending-l1">Mẹ đã đi qua bao nhiêu nơi,</p>
+            <p class="ending-line" id="ending-l2">để lại dấu chân trên những vùng đất đẹp nhất.</p>
+            <p class="ending-line" id="ending-l3">Chúc Mẹ mãi khỏe mạnh, bình an,</p>
+            <p class="ending-line" id="ending-l4">và còn nhiều chuyến đi đẹp hơn nữa đang chờ phía trước.</p>
+            <p class="ending-line ending-love" id="ending-l5">Con yêu Mẹ ✦ Chúc Mừng Sinh Nhật</p>
+            <p class="ending-line ending-sig" id="ending-l6">— Bi</p>
+          </div>
+          <button id="ending-flip">Lật thẻ →</button>
+        </div>
+
+        <!-- ── Back face ──────────────────────────────────── -->
+        <div class="ending-card-face ending-card-back">
+          <div class="ending-back-topbar"></div>
+          <p class="ending-back-ornament">✦ &nbsp; ✦ &nbsp; ✦</p>
+          <svg class="ending-back-floral" viewBox="0 0 200 70" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 52 Q40 32 82 36" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.5"/>
+            <ellipse cx="30" cy="39" rx="10" ry="6" fill="#D4868A" opacity="0.22" transform="rotate(-30 30 39)"/>
+            <ellipse cx="54" cy="31" rx="8" ry="5" fill="#C9A84C" opacity="0.28" transform="rotate(-15 54 31)"/>
+            <circle cx="100" cy="35" r="10" fill="none" stroke="#C9A84C" stroke-width="1.2" opacity="0.65"/>
+            <ellipse cx="100" cy="21" rx="5" ry="9" fill="#D4868A" opacity="0.5"/>
+            <ellipse cx="100" cy="49" rx="5" ry="9" fill="#D4868A" opacity="0.5"/>
+            <ellipse cx="86" cy="35" rx="9" ry="5" fill="#D4868A" opacity="0.5"/>
+            <ellipse cx="114" cy="35" rx="9" ry="5" fill="#D4868A" opacity="0.5"/>
+            <ellipse cx="89.9" cy="24.9" rx="5" ry="9" fill="#D4868A" opacity="0.32" transform="rotate(-45 89.9 24.9)"/>
+            <ellipse cx="110.1" cy="24.9" rx="5" ry="9" fill="#D4868A" opacity="0.32" transform="rotate(45 110.1 24.9)"/>
+            <ellipse cx="89.9" cy="45.1" rx="5" ry="9" fill="#D4868A" opacity="0.32" transform="rotate(45 89.9 45.1)"/>
+            <ellipse cx="110.1" cy="45.1" rx="5" ry="9" fill="#D4868A" opacity="0.32" transform="rotate(-45 110.1 45.1)"/>
+            <circle cx="100" cy="35" r="5" fill="#C9A84C" opacity="0.55"/>
+            <path d="M190 52 Q160 32 118 36" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.5"/>
+            <ellipse cx="170" cy="39" rx="10" ry="6" fill="#D4868A" opacity="0.22" transform="rotate(30 170 39)"/>
+            <ellipse cx="146" cy="31" rx="8" ry="5" fill="#C9A84C" opacity="0.28" transform="rotate(15 146 31)"/>
+          </svg>
+          <div class="ending-back-rule"></div>
+          <p class="ending-back-wish">Happy Birthday</p>
+          <p class="ending-back-name">Mom ♡</p>
+          <div class="ending-back-rule ending-back-rule-sm"></div>
+          <p class="ending-back-date">June 13</p>
+          <p class="ending-back-stars">✦</p>
+          <button id="ending-close">✕</button>
+        </div>
+
       </div>
-      <img id="ending-photo" alt="" />
-      <div id="ending-text">
-        <p class="ending-line" id="ending-l1">Mẹ đã đi qua bao nhiêu nơi,</p>
-        <p class="ending-line" id="ending-l2">để lại dấu chân trên những vùng đất đẹp nhất.</p>
-        <p class="ending-line" id="ending-l3">Chúc Mẹ mãi khỏe mạnh, bình an,</p>
-        <p class="ending-line" id="ending-l4">và còn nhiều chuyến đi đẹp hơn nữa đang chờ phía trước.</p>
-        <p class="ending-line ending-love" id="ending-l5">Con yêu Mẹ ✦ Chúc Mừng Sinh Nhật</p>
-        <p class="ending-line ending-sig" id="ending-l6">— Bi</p>
-      </div>
-      <button id="ending-close">Tiếp tục →</button>
     </div>
   </div>
 
