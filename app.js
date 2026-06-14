@@ -525,10 +525,10 @@ function showEnding() {
   document.getElementById('ending-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  const introMusic = document.getElementById('intro-music');
-  introMusic.currentTime = 0;
-  introMusic.volume = 0.5;
-  introMusic.play().catch(() => {});
+  const endingMusic = document.getElementById('ending-music');
+  endingMusic.currentTime = 0;
+  endingMusic.volume = 0.5;
+  endingMusic.play().catch(() => {});
 
   // Reset card flip so it replays on repeated opens (skip button)
   const card = document.querySelector('.ending-card');
@@ -768,9 +768,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('ending-close').addEventListener('click', () => {
     document.getElementById('ending-modal').classList.remove('open');
     document.body.style.overflow = '';
-    const introMusic = document.getElementById('intro-music');
-    introMusic.pause();
-    introMusic.currentTime = 0;
+    const endingMusic = document.getElementById('ending-music');
+    endingMusic.pause();
+    endingMusic.currentTime = 0;
   });
 
   document.getElementById('skip-to-end').addEventListener('click', showEnding);
