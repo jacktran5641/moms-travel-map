@@ -219,10 +219,34 @@
   <!-- ── Intro ─────────────────────────────────────────── -->
   <div id="intro">
     <audio id="intro-music" loop preload="auto" src="music/intro.mp3"></audio>
-    <!-- Gate: user must tap to unlock audio (browser autoplay policy) -->
+    <!-- Gate: gift box — click to unlock audio and open experience -->
     <div id="intro-gate">
-      <p class="intro-gate-sub">13 tháng 6 · Sinh Nhật</p>
-      <button id="intro-gate-btn">✦ Bắt đầu ✦</button>
+      <div id="gift-wrap">
+        <div id="gift-lid">
+          <svg class="gift-bow-svg" viewBox="0 0 100 68" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Left bow loop -->
+            <path d="M 50,36 C 40,18 5,14 6,30 C 7,46 38,48 50,42 Z" fill="#D4868A" opacity="0.88"/>
+            <!-- Right bow loop -->
+            <path d="M 50,36 C 60,18 95,14 94,30 C 93,46 62,48 50,42 Z" fill="#D4868A" opacity="0.88"/>
+            <!-- Highlights -->
+            <path d="M 50,34 C 44,24 18,20 16,29 C 15,33 30,35 50,36 Z" fill="rgba(255,255,255,0.22)"/>
+            <path d="M 50,34 C 56,24 82,20 84,29 C 85,33 70,35 50,36 Z" fill="rgba(255,255,255,0.22)"/>
+            <!-- Knot -->
+            <ellipse cx="50" cy="38" rx="10" ry="8" fill="#C9A84C"/>
+            <ellipse cx="50" cy="37" rx="5" ry="3.5" fill="#E2C97E"/>
+            <!-- Left tail -->
+            <path d="M 44,44 Q 32,58 24,66" stroke="#D4868A" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.82"/>
+            <!-- Right tail -->
+            <path d="M 56,44 Q 68,58 76,66" stroke="#D4868A" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.82"/>
+          </svg>
+          <div class="gift-lid-ribbon"></div>
+        </div>
+        <div id="gift-body">
+          <div class="gift-ribbon-v"></div>
+          <div class="gift-ribbon-h"></div>
+        </div>
+      </div>
+      <p id="gift-hint">Nhấn để mở quà</p>
     </div>
     <div id="curtain-left"></div>
     <div id="curtain-right"></div>

@@ -23,15 +23,26 @@ function runIntro() {
   const introMusic = document.getElementById('intro-music');
   introMusic.volume = 0.5;
 
-  // Gate click: unlock audio (within user-gesture window), open curtains, start animations.
-  // This is the only reliable way to autoplay audio — browsers require a direct user action.
+  // Gate click: lid pops off, sparkles burst, then curtains open.
+  // The click is the required user gesture to unlock audio in browsers.
   gate.addEventListener('click', () => {
-    gate.classList.add('hidden');
+    // Lid flies off
+    document.getElementById('gift-lid').classList.add('open');
+    // Sparkle burst from box center
+    const wrap = document.getElementById('gift-wrap');
+    const r = wrap.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height * 0.35;
+    spawnSparkles(cx, cy);
+    setTimeout(() => spawnSparkles(cx, cy - 10), 180);
+    // Unlock audio within user-gesture window
     _introPlayPromise = introMusic.play().catch(() => {});
+    // Fade gate, then open curtains + start text animations
+    setTimeout(() => gate.classList.add('hidden'), 460);
     setTimeout(() => {
-      intro.classList.add('open');    // curtains part
-      intro.classList.add('playing'); // triggers CSS animations
-    }, 80);
+      intro.classList.add('open');
+      intro.classList.add('playing');
+    }, 700);
   }, { once: true });
 
   document.getElementById('intro-skip').addEventListener('click', closeIntro);
@@ -519,12 +530,21 @@ function buildPlacesPanel() {
     }
     section.appendChild(h);
 
-    // Hidden location buttons — stay in DOM so markVisited tracking still works
+    // Sub-city location buttons — visible, handle visited cross-off and click
     for (const [lKey, loc] of Object.entries(country.locations)) {
       const btn = document.createElement('button');
       btn.className = loc.placeholder ? 'places-loc-btn places-loc-placeholder' : 'places-loc-btn';
       btn.dataset.country = cKey;
       btn.dataset.loc = lKey;
+      btn.textContent = loc.name;
+      if (!loc.placeholder) {
+        btn.addEventListener('click', () => {
+          closeModal('location-modal');
+          document.getElementById('places-panel').classList.remove('open');
+          if (loc.music) loadAndPlayMusic(loc.music);
+          openSlideshow(cKey, lKey, country.name, loc, loc.music || null);
+        });
+      }
       section.appendChild(btn);
     }
 

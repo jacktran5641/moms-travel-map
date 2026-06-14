@@ -142,7 +142,7 @@ body::before {
   line-height: 1;
 }
 
-/* ─── Intro Gate (tap to begin) ─────────────────────────── */
+/* ─── Intro Gate — Gift Box ──────────────────────────────── */
 #intro-gate {
   position: absolute;
   inset: 0;
@@ -151,36 +151,98 @@ body::before {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 22px;
   pointer-events: auto;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.55s ease;
+  background: radial-gradient(ellipse 90% 38% at 50% 0%, rgba(212,134,138,0.13) 0%, transparent 100%), var(--bg);
 }
-#intro-gate.hidden {
-  opacity: 0;
+#intro-gate.hidden { opacity: 0; pointer-events: none; }
+
+#gift-wrap {
+  position: relative;
+  width: 160px;
+  cursor: pointer;
+  transition: transform 0.28s ease;
+  margin-top: 52px; /* room for bow above the lid */
+}
+#gift-wrap:hover { transform: translateY(-10px); }
+
+/* ── Lid ── */
+#gift-lid {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(180deg, #E8D080 0%, #C9A84C 100%);
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 -2px 8px rgba(44,40,38,0.08), inset 0 1px 0 rgba(255,255,255,0.28);
+  overflow: visible;
+  z-index: 2;
+}
+.gift-lid-ribbon {
+  position: absolute;
+  left: 50%; top: 0;
+  transform: translateX(-50%);
+  width: 22px; height: 100%;
+  background: rgba(212,134,138,0.52);
+}
+#gift-lid.open {
+  animation: lid-pop-off 0.52s cubic-bezier(0.4, 0, 0.7, 0.3) forwards;
+}
+@keyframes lid-pop-off {
+  0%   { transform: translateY(0)   rotate(0deg);   opacity: 1; }
+  18%  { transform: translateY(-18px) rotate(-5deg); opacity: 1; }
+  100% { transform: translateY(-230px) translateX(-45px) rotate(-30deg); opacity: 0; }
+}
+
+/* ── Bow (SVG above lid) ── */
+.gift-bow-svg {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 114px; height: 68px;
+  margin-bottom: -3px;
   pointer-events: none;
 }
-.intro-gate-sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 2.5vw, 1.3rem);
-  font-style: italic;
-  color: var(--gold);
+
+/* ── Body ── */
+#gift-body {
+  width: 100%; height: 118px;
+  background: linear-gradient(170deg, #FEFAF4 0%, #FAF6ED 100%);
+  border: 1.5px solid rgba(201,168,76,0.52);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 14px 38px rgba(44,40,38,0.13), 0 3px 10px rgba(44,40,38,0.07);
+}
+.gift-ribbon-v {
+  position: absolute;
+  left: 50%; top: 0;
+  transform: translateX(-50%);
+  width: 22px; height: 100%;
+  background: rgba(212,134,138,0.36);
+}
+.gift-ribbon-h {
+  position: absolute;
+  top: 50%; left: 0;
+  transform: translateY(-50%);
+  width: 100%; height: 22px;
+  background: rgba(212,134,138,0.36);
+}
+
+/* ── Hint text ── */
+#gift-hint {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.63rem;
   letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 28px;
+  animation: hint-pulse 2.2s ease-in-out infinite;
 }
-#intro-gate-btn {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 2.5vw, 1.15rem);
-  letter-spacing: 0.28em;
-  color: var(--text);
-  background: transparent;
-  border: 1px solid rgba(201,168,76,0.45);
-  padding: 13px 38px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
-}
-#intro-gate-btn:hover {
-  border-color: var(--gold);
-  background: rgba(201,168,76,0.07);
+@keyframes hint-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.85; }
 }
 
 /* ─── Intro Ornament ─────────────────────────────────────── */
@@ -1211,8 +1273,6 @@ footer {
   text-decoration: line-through;
   opacity: 0.5;
 }
-/* Location buttons stay in DOM for tracking but are hidden visually */
-#places-content .places-loc-btn { display: none; }
 
 .places-loc-btn {
   display: block;
