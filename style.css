@@ -774,6 +774,17 @@ body::before {
 }
 
 /* ─── Footer ─────────────────────────────────────────────── */
+#map-hint {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(0.82rem, 2vw, 0.95rem);
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  padding: 0 24px 20px;
+  opacity: 0.75;
+}
+
 footer {
   text-align: center;
   padding: 24px;
