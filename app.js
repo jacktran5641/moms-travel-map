@@ -162,12 +162,28 @@ async function init() {
       const key = codeMap[+d.id];
       if (!key) return;
       tooltip.classList.remove('visible');
+      spawnSparkles(event.clientX, event.clientY);
       // Start music immediately while still inside the user-gesture context,
       // before the 800ms zoom animation expires the browser's autoplay permission.
       const locs = Object.values(TRAVEL_DATA[key].locations);
       if (locs.length === 1 && locs[0].music && !locs[0].placeholder) loadAndPlayMusic(locs[0].music);
       zoomToCountry(d, () => handleCountryClick(key));
     });
+
+  // Pulsing rings on non-placeholder visited countries
+  const pulseLayer = g.append('g').attr('class', 'pulse-layer').style('pointer-events', 'none');
+  countries.features.forEach(feature => {
+    const key = codeMap[+feature.id];
+    if (!key) return;
+    const isPlaceholder = Object.values(TRAVEL_DATA[key].locations).every(l => l.placeholder);
+    if (isPlaceholder) return;
+    const centroid = mapPath.centroid(feature);
+    if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return;
+    const pg = pulseLayer.append('g').attr('transform', `translate(${centroid[0]},${centroid[1]})`);
+    pg.append('circle').attr('r', 4).attr('class', 'pulse-ring pulse-ring-1');
+    pg.append('circle').attr('r', 4).attr('class', 'pulse-ring pulse-ring-2');
+    pg.append('circle').attr('r', 1.8).attr('class', 'pulse-dot');
+  });
 }
 
 // ── Country click handler ─────────────────────────────────
@@ -676,14 +692,66 @@ function renderStats() {
   const countries = Object.keys(TRAVEL_DATA).length;
   const locs = Object.values(TRAVEL_DATA)
     .reduce((n, c) => n + Object.keys(c.locations).length, 0);
-  document.getElementById('header-stats').textContent =
-    `${age} năm · ${countries} quốc gia · ${locs} địa điểm`;
+  document.getElementById('header-stats').innerHTML =
+    `<span class="stat-num">${age}</span><span class="stat-lbl"> năm</span>` +
+    `<span class="stat-sep">✦</span>` +
+    `<span class="stat-num">${countries}</span><span class="stat-lbl"> quốc gia</span>` +
+    `<span class="stat-sep">✦</span>` +
+    `<span class="stat-num">${locs}</span><span class="stat-lbl"> địa điểm</span>`;
+}
+
+// ── Sparkle burst on country click ────────────────────────
+function spawnSparkles(x, y) {
+  const shapes = ['✦', '✧', '◆', '✦', '·', '★'];
+  const colors = ['#C9A84C', '#E2C97E', '#D4868A', '#E8AAAD', '#fffbe8'];
+  const count = 12;
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('span');
+    el.className = 'sparkle-particle';
+    const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.8;
+    const dist  = 55 + Math.random() * 90;
+    const dur   = 0.5 + Math.random() * 0.45;
+    el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+    el.style.cssText = [
+      `left:${x}px`, `top:${y}px`,
+      `color:${colors[Math.floor(Math.random() * colors.length)]}`,
+      `font-size:${10 + Math.random() * 10}px`,
+      `--spark-dx:${Math.cos(angle) * dist}px`,
+      `--spark-dy:${Math.sin(angle) * dist}px`,
+      `--spark-dur:${dur}s`,
+    ].join(';');
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), (dur + 0.1) * 1000);
+  }
+}
+
+// ── Falling Petals ────────────────────────────────────────
+function createPetals() {
+  const container = document.getElementById('petals-container');
+  const colors = [
+    'rgba(212,134,138,0.50)', 'rgba(232,170,173,0.42)',
+    'rgba(226,201,126,0.38)', 'rgba(201,168,76,0.32)'
+  ];
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const size = 7 + Math.random() * 10;
+    p.style.width  = `${size}px`;
+    p.style.height = `${(size * 1.6).toFixed(1)}px`;
+    p.style.left   = `${Math.random() * 100}%`;
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.animationDuration = `${10 + Math.random() * 14}s`;
+    p.style.animationDelay   = `${-(Math.random() * 20)}s`;
+    p.style.setProperty('--drift', `${-60 + Math.random() * 120}px`);
+    container.appendChild(p);
+  }
 }
 
 // ── Event Listeners ───────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   renderStats();
   buildPlacesPanel();
+  createPetals();
   runIntro();
 
   // Prime bgMusic on first click so Brave/strict browsers allow play() after async delays.
