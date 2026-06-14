@@ -777,9 +777,9 @@ body::before {
 #map-hint {
   position: fixed;
   top: 140px;
-  left: 50%;
+  left: 96px;
   z-index: 10;
-  max-width: 160px;
+  max-width: 140px;
   text-align: center;
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
@@ -791,8 +791,8 @@ body::before {
   animation: hint-bob 1.8s ease-in-out infinite;
 }
 @keyframes hint-bob {
-  0%, 100% { transform: translateX(-50%) translateY(0px);  }
-  50%       { transform: translateX(-50%) translateY(-10px); }
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-10px); }
 }
 @media (max-width: 600px) {
   #map-hint { display: none; }
