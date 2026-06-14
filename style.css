@@ -313,7 +313,7 @@ body::before {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 16px 56px;
+  padding: 0 16px 8px;
 }
 
 #world-map {
