@@ -19,7 +19,7 @@ jobs:
           python3 - <<'EOF'
           import os, json
 
-          IMAGE_EXTS = {'.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif', '.heic'}
+          IMAGE_EXTS = {'.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif', '.heic', '.mp4', '.mov', '.webm', '.m4v'}
           manifest = {}
 
           for root, dirs, files in os.walk('photos'):

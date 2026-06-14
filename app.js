@@ -24,13 +24,18 @@ function runIntro() {
 
   // Try immediate autoplay; if blocked, play on the very first gesture (capture
   // phase so it fires before any child handler like the skip button).
+  // Both listeners share a named handler so they can be removed together, and
+  // we skip the deferred play if the user's first gesture is the skip button
+  // (otherwise the play() promise resolves after pause() on mobile, leaking audio).
   introMusic.play().catch(() => {
-    document.addEventListener('click', function playIntroOnce() {
+    function onFirstGesture(e) {
+      document.removeEventListener('click', onFirstGesture, true);
+      document.removeEventListener('touchstart', onFirstGesture, true);
+      if (e.target && e.target.closest && e.target.closest('#intro-skip')) return;
       introMusic.play().catch(() => {});
-    }, { capture: true, once: true });
-    document.addEventListener('touchstart', function playIntroOnce() {
-      introMusic.play().catch(() => {});
-    }, { capture: true, once: true, passive: true });
+    }
+    document.addEventListener('click', onFirstGesture, { capture: true });
+    document.addEventListener('touchstart', onFirstGesture, { capture: true, passive: true });
   });
 
   document.getElementById('intro-skip').addEventListener('click', closeIntro);
